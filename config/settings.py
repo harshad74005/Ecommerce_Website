@@ -62,7 +62,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -131,8 +131,8 @@ EMAIL_PORT = 587         # Changed from 465
 EMAIL_USE_TLS = True     # Changed from False
 EMAIL_USE_SSL = False    # Changed from True
 
-# Your actual credentials (Ensure the password is a 16-character App Password)
+# Your actual credentials (using regular password since 2FA is off)
 EMAIL_HOST_USER = 'harshadchavare210@gmail.com'
-EMAIL_HOST_PASSWORD = 'iwix rpot gxag spbh' 
+EMAIL_HOST_PASSWORD = 'Harshad123456' # <-- Updated to your regular password
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
