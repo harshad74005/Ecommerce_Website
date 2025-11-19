@@ -54,8 +54,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-# config/settings.py
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -65,9 +63,9 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.request',
                 # THIS LINE MUST BE HERE FOR THE ADMIN TO WORK:
-                'django.contrib.auth.context_processors.auth',
+                'django.contrib.auth.context_processors.auth', 
                 'django.contrib.messages.context_processors.messages',
-                'django.contrib.auth.context_processors.auth',
+                # Removed duplicate 'django.contrib.auth.context_processors.auth'
             ],
         },
     },
@@ -131,12 +129,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Use TLS (Transport Layer Security) on port 587
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587         # Changed from 465
-EMAIL_USE_TLS = True     # Changed from False
-EMAIL_USE_SSL = False    # Changed from True
+EMAIL_PORT = 587         
+EMAIL_USE_TLS = True     
+EMAIL_USE_SSL = False    
 
 # Your actual credentials (using regular password since 2FA is off)
-EMAIL_HOST_USER = 'harshadchavare210@gmail.com'
-EMAIL_HOST_PASSWORD = 'Harshad123456' # <-- Updated to your regular password
+EMAIL_HOST_USER = 'harshadchavare210@gmail.com' # <-- UPDATED EMAIL USER
+EMAIL_HOST_PASSWORD = 'ciin xyzg lcif fxvj' 
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
