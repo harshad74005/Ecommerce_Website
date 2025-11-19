@@ -15,7 +15,12 @@ SECRET_KEY = 'django-insecure-!k7px@!_u9y6g*-x2506gd%q1vc$1u@$+ph!tma^)bj9@nm14-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# 🎯 CRITICAL FIX: ADDED DEPLOYMENT DOMAIN TO ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    'ecommerce-website-mg4g.onrender.com',  # Your live Render URL
+    '127.0.0.1',                            # Local development
+    'localhost',                            # Local development
+]
 
 
 # Application definition
@@ -31,7 +36,6 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
 ]
 
-# 🎯 CRITICAL FIX: The CSRF middleware path must start with 'django.middleware'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -111,6 +115,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # --- Real SMTP Configuration (Using SSL on Port 465) ---
+# NOTE: It is a security risk to hardcode credentials like this in production.
+# They should be moved to environment variables (e.g., using python-decouple or os.environ).
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Use SSL (Secure Sockets Layer) on port 465 for a direct secure connection
@@ -121,6 +127,6 @@ EMAIL_USE_SSL = True
 
 # Your actual credentials (Ensure the password is a 16-character App Password)
 EMAIL_HOST_USER = 'harshadchavare210@gmail.com'
-EMAIL_HOST_PASSWORD = 'iwix rpot gxag spbh' # Using the provided App Password
+EMAIL_HOST_PASSWORD = 'iwix rpot gxag spbh' 
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
