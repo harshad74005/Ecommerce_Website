@@ -120,16 +120,16 @@ MEDIA_ROOT = BASE_DIR / 'upload'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# --- Real SMTP Configuration (Using SSL on Port 465) ---
+# --- Real SMTP Configuration (Using TLS on Port 587) ---
 # NOTE: It is a security risk to hardcode credentials like this in production.
 # They should be moved to environment variables (e.g., using python-decouple or os.environ).
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# Use SSL (Secure Sockets Layer) on port 465 for a direct secure connection
+# Use TLS (Transport Layer Security) on port 587
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_PORT = 587         # Changed from 465
+EMAIL_USE_TLS = True     # Changed from False
+EMAIL_USE_SSL = False    # Changed from True
 
 # Your actual credentials (Ensure the password is a 16-character App Password)
 EMAIL_HOST_USER = 'harshadchavare210@gmail.com'
