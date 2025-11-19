@@ -15,11 +15,17 @@ SECRET_KEY = 'django-insecure-!k7px@!_u9y6g*-x2506gd%q1vc$1u@$+ph!tma^)bj9@nm14-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# 🎯 CRITICAL FIX: ADDED DEPLOYMENT DOMAIN TO ALLOWED_HOSTS
+# 1. FIX for DisallowedHost Error (HTTP_HOST header)
 ALLOWED_HOSTS = [
     'ecommerce-website-mg4g.onrender.com',  # Your live Render URL
     '127.0.0.1',                            # Local development
     'localhost',                            # Local development
+]
+
+# 2. FIX for CSRF Verification Failed Error (Origin checking)
+# This is required because your site is running over HTTPS on Render.
+CSRF_TRUSTED_ORIGINS = [
+    'https://ecommerce-website-mg4g.onrender.com',
 ]
 
 
