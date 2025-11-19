@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %} Customer Login{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-3">
+        <div class="col-sm-6 offset-sm-3">
+
+            <h3>Customer Login</h3>
+
+            <form action="/login" method="post" class="shadow p-5">
+                {% if messages%}
+                {% for message in messages%}
+                <p {% if message.tags%} class="alert alert-{{message.tags}} mb-5 form-control-sm" {% endif %}>{{message}}</p>
+                {% endfor %}
+                {%endif%}
+
+                {% csrf_token%}
+
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {%endif%}
+
+                {% if request.session.is_otp_sent %}
+                    <div class="form-group">
+                        <label for="otp_input" class="form-control-lg">Enter Login Code</label>
+                        <input type="number" name="otp_input" id="otp_input" class="form-control" placeholder="6-digit code sent to your email">
+                    </div>
+
+                    <div class="form-group pt-4">
+                        <input class="btn btn-sm btn-success" type="submit" value="Verify & Login">
+                    </div>
+
+                {% else %}
+                    <div class="form-group">
+                        <label for="user_id" class="form-control-lg">Mobile Number or Email</label>
+                        <input type="text" name="user_id" id="user_id" class="form-control" placeholder="Enter Phone or Email">
+                    </div>
+
+                    <div class="form-group pt-4">
+                        <input class="btn btn-sm btn-primary" type="submit" value="Send Login Code">
+                    </div>
+                {% endif %}
+
+                <br>
+                <div class="text-center text-primary fw-bold">
+                    <small class="form-control-sm">New to SmartGrocery?</small>
+                    <a href="/signup" class="text-danger" class="form-control-sm">Signup</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

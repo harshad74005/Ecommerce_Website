@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <div class="row">
+
+        <div class="col-lg-3">
+            <h4 class="mb-3">Categories</h4>
+            <div class="list-group shadow-sm">
+                <a href="/" class="list-group-item list-group-item-action
+                   {% if not request.GET.category %}active{% endif %}">
+                   All Products
+                </a>
+
+                {% for category in categories %}
+                <a href="/?category={{category.id}}"
+                   class="list-group-item list-group-item-action
+                   {% if request.GET.category == category.id|stringformat:"s" %}active{% endif %}">
+                   {{category.name}}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <h4 class="mb-3">Products</h4>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+                {% for product in products %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+
+                        <div class="product-image-container">
+                            <img src="{{product.image.url}}" class="card-img-top" alt="{{product.name}}">
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{product.name}}</h5>
+                            <h5 class="card-text">Rs. {{product.price}}</h5>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 p-3">
+                            <a href="{% url 'product-detail' product.id %}" class="btn btn-outline-primary w-100">
+                                View Details
+                            </a>
+                            <a href="/add_to_cart?prod_id={{product.id}}" class="btn btn-primary w-100 mt-2">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

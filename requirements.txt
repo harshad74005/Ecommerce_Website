@@ -1,0 +1,7 @@
+asgiref==3.10.0
+decimalfp==0.12.2
+Django==5.2.8
+pillow==12.0.0
+quantity==0.11.4
+sqlparse==0.5.3
+tzdata==2025.2

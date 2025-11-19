@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %} Customer Signup{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-3">
+        <div class="col-sm-6 offset-sm-3">
+
+            <h3>Customer Signup</h3>
+
+            <form action="/signup" method="post" class="shadow p-5">
+                {% if messages%}
+                {% for message in messages%}
+                <p {% if message.tags%} class="alert alert-{{message.tags}} mb-5 form-control-sm" {% endif %}>{{message}}</p>
+                {% endfor %}
+                {%endif%}
+
+                {% csrf_token%}
+
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {%endif%}
+
+                {% if request.session.is_otp_sent %}
+
+                    <div class="form-group">
+                        <label for="otp_input" class="form-control-lg">Enter Verification Code</label>
+                        <input type="number" name="otp_input" id="otp_input" class="form-control" placeholder="6-digit code sent to {{ request.session.temp_email }}">
+                    </div>
+
+                    <input type="hidden" name="name" value="{{ request.session.temp_name }}">
+                    <input type="hidden" name="phone" value="{{ request.session.temp_phone }}">
+                    <input type="hidden" name="email" value="{{ request.session.temp_email }}">
+
+                    <div class="form-group pt-4">
+                        <input class="btn btn-sm btn-success" type="submit" value="Verify & Signup">
+                    </div>
+
+                {% else %}
+                    <div class="form-group">
+                        <label for="name" class="form-control-lg">Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{value.name}}" placeholder="Enter name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile" class="form-control-lg">Mobile Number</label>
+                        <input type="number" name="phone" id="mobile" class="form-control" value="{{value.phone}}" placeholder="Enter Mobile Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-control-lg">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" value="{{value.email}}" placeholder="Enter Email Address">
+                    </div>
+
+                    <div class="form-group pt-4">
+                        <input class="btn btn-sm btn-primary" type="submit" value="Submit">
+                    </div>
+                {% endif %}
+
+                <br>
+                <div class="text-center text-primary fw-bold">
+                    <small class="form-control-sm">Existing user to SmartGrocry ?</small>
+                    <a href="/login" class="text-danger" class="form-control-sm">Login</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

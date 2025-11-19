@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Cart{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="border rounded p-4 m-4">
+        <p class="display-4 pl-4 ml-4">
+            My Cart
+        </p>
+        <hr>
+
+        <div id="cart-content" {% if not cart %}style="display: none;"{% endif %}>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Sr no.</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th> <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cart_item in cart %}
+                <tr id="cart-item-{{cart_item.id}}">
+                    <td>{{forloop.counter}}</td>
+                    <td><img style="height: 80px;" class="rounded-circle" src="{{cart_item.product.image.url}}" alt=""></td>
+                    <td>{{cart_item.product.name}}</td>
+                    <td>Rs. {{cart_item.product.price}}</td>
+                    <td>
+                        <button data-pid="{{cart_item.id}}" class="minus-cart btn btn-primary">-</button>
+                        <span id="quantity-{{cart_item.id}}" class="mx-2">{{cart_item.quantity}}</span>
+                        <button data-pid="{{cart_item.id}}" class="plus-cart btn btn-primary">+</button>
+                    </td>
+                    <td>
+                        <!-- ✅ Updated Subtotal -->
+                        <span id="subtotal-{{cart_item.id}}">Rs. {{ cart_item.subtotal }}</span>
+                    </td>
+                    <td>
+                        <button data-pid="{{cart_item.id}}" class="btn btn-danger btn-sm remove-cart">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <div class="m-3 p-3">
+                <a href="#" class="btn btn-outline-info border rounded col-lg-3 float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">Check Out</a>
+            </div>
+        </div>
+
+        <div id="empty-cart-message" class="text-center" {% if cart %}style="display: none;"{% endif %}>
+            <img src="{% static 'images/empty_cart.jpeg' %}" class="img-fluid w-25">
+            <h3 class="mt-4">Your Cart is Empty!</h3>
+            <p class="text-muted">Looks like you haven't added anything to your cart yet.</p>
+            <a href="/" class="btn btn-primary mt-3">Continue Shopping</a>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form action="{% url 'checkout' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Shipping Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group mt-3">
+                <label>Name</label>
+                <input required type="text" name="name" id="name" class="form-control" placeholder="Enter Your Name">
+            </div>
+            <div class="form-group mt-3">
+                <label>Shipping Address</label>
+                <input required type="text" name="address" id="address" class="form-control" placeholder="Enter Your Shipping Address">
+            </div>
+            <div class="form-group mt-3">
+                <label>Mobile No</label>
+                <input required type="number" name="mobile" id="mobile" class="form-control" placeholder="Enter Your Mobile Number">
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Make Payment</button>
+        </div>
+
+      </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+
+        // --- PLUS CART BUTTON ---
+        $('.plus-cart').click(function(){
+            var id = $(this).data("pid").toString();
+            var quantity_span = $("#quantity-" + id);
+            var subtotal_span = $("#subtotal-" + id);
+
+            $.ajax({
+                type: "GET",
+                url: "/plus_cart",
+                data: { prod_id: id },
+                success: function(data){
+                    if (data.status === 'success') {
+                        quantity_span.text(data.quantity);
+                        subtotal_span.text("Rs. " + data.subtotal); // ✅ Update subtotal
+                    }
+                }
+            });
+        });
+
+        // --- MINUS CART BUTTON ---
+        $('.minus-cart').click(function(){
+            var id = $(this).data("pid").toString();
+            var quantity_span = $("#quantity-" + id);
+            var subtotal_span = $("#subtotal-" + id);
+
+            $.ajax({
+                type: "GET",
+                url: "/minus_cart",
+                data: { prod_id: id },
+                success: function(data){
+                    if (data.status === 'success') {
+                        quantity_span.text(data.quantity);
+                        subtotal_span.text("Rs. " + data.subtotal); // ✅ Update subtotal
+                    }
+                }
+            });
+        });
+
+        // --- REMOVE CART BUTTON ---
+        $('.remove-cart').click(function(){
+            var id = $(this).data("pid").toString();
+            var row_to_remove = $("#cart-item-" + id);
+            var badge = $("#cart-badge");
+
+            $.ajax({
+                type: "GET",
+                url: "/remove_cart",
+                data: { prod_id: id },
+                success: function(data){
+                    if (data.status === 'success'){
+                        row_to_remove.remove();
+                        badge.text(data.totalitem);
+
+                        if (data.totalitem == 0) {
+                            window.location.href = "/show_cart";
+                        }
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}

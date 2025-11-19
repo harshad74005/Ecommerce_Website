@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %} Verify Payment OTP 🔒 | SmartGrocery {% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card p-4 shadow-lg">
+                <h3 class="card-title text-center mb-4">OTP Verification</h3>
+
+                {% if error %}
+                <div class="alert alert-danger text-center" role="alert" style="font-weight: bold; margin-bottom: 20px;">
+                    ❌ {{ error }} ❌
+                </div>
+                {% endif %}
+
+                <p class="text-muted text-center">A 6-digit OTP has been sent to your registered **email address**.</p>
+
+                <form method="POST" action="{% url 'verify_otp' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group mb-3">
+                        <label for="otp_input">Enter OTP:</label>
+                        <input type="number" name="otp_input" id="otp_input" class="form-control form-control-lg text-center" required minlength="6" maxlength="6" placeholder="Enter 6-digit OTP">
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 mt-4">
+                        Verify & Place Order
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a href="{% url 'initiate_otp' %}" class="btn btn-link">Resend OTP</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Orders | SmartGrocery{% endblock %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="border rounded p-4 shadow">
+        <h2 class="display-5 mb-4">
+            My Orders History 🧾
+        </h2>
+        <hr>
+
+        {% if orders %}
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><img style="height: 50px;" class="rounded" src="{{ order.image.url }}" alt="{{ order.product_name }}"></td>
+                        <td>{{ order.product_name }}</td>
+                        <td>{{ order.qty }}</td>
+                        <td>Rs. {{ order.price }}</td>
+                        <td>{{ order.ordered_date|date:"M d, Y" }}</td>
+                        <td>
+                            {% if order.status == 'Pending' %}
+                                <span class="badge bg-warning text-dark">{{ order.status }}</span>
+                            {% elif order.status == 'Completed' %}
+                                <span class="badge bg-success">{{ order.status }}</span>
+                            {% else %}
+                                <span class="badge bg-info">{{ order.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info text-center">
+                You haven't placed any orders yet. Start shopping!
+                <a href="{% url 'homepage' %}" class="alert-link">Continue Shopping</a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
