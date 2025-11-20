@@ -155,7 +155,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-key-change-in-p
 DEBUG = 'RENDER' not in os.environ
 
 # HOSTS: Allow Render URL and localhost
-ALLOWED_HOSTS =ALLOWED_HOSTS = [
+ALLOWED_HOSTS = [
     'ecommerce-website-mg4g.onrender.com',  # Your live Render URL
     '127.0.0.1',                            # Local development
     'localhost',                            # Local development
