@@ -166,8 +166,10 @@ if RENDER_EXTERNAL_HOSTNAME:
 ALLOWED_HOSTS.extend(['127.0.0.1', 'localhost'])
 
 # Trusted Origins for HTTPS
+# if RENDER_EXTERNAL_HOSTNAME:
+#     CSRF_TRUSTED_ORIGINS ='ecommerce-website-mg4g.onrender.com'
 if RENDER_EXTERNAL_HOSTNAME:
-    CSRF_TRUSTED_ORIGINS ='ecommerce-website-mg4g.onrender.com'
+    CSRF_TRUSTED_ORIGINS = ['https://ecommerce-website-mg4g.onrender.com'] 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -182,6 +184,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
