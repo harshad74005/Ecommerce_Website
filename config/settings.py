@@ -266,4 +266,4 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')     # Set this in Render Dashboar
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS') # Set this in Render Dashboard
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'x
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
